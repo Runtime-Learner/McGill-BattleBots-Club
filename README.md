@@ -1,0 +1,1 @@
+# McGill-BattleBots-Club-Curriculum
