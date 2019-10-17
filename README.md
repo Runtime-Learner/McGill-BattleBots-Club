@@ -23,7 +23,7 @@ Most people who will attend the workshops will be beginners, but some will alrea
 8. Final workshop: end of bot build
 
 # TIMELINE DRAFT 2
-1. Intro. What is our process. Arduino -> why. Sensors and motors
+1. **Intro. What is our process. Arduino -> why. Detectors (sensors) and Modifiers (LEDs, motors, etc)**
 2. **Using Arduino: Electronic components. Resistors, capacitors, diodes, inductors**
 3. Using Arduino: LED matrix
 4. Using Arduino: Buttons. Event based programming. Interrupts -> when and why to use them?
