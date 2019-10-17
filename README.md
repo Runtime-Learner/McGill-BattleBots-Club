@@ -41,3 +41,13 @@ Most people who will attend the workshops will be beginners, but some will alrea
 6. Using Arduino: Communication. use NRF24 to control LED
 7. Motos and motor shields
 8. Final workshop: end of bot build
+
+# TIMELINE DRAFT 4
+1. Intro. What is our process. Arduino -> why. Sensors and motors
+2. Using Arduino: Electronic components. Resistors, capacitors, diodes, inductors
+3. Using Arduino: **Intro to Arduino.** Control one LED. LED matrix. Working with registers and large LED matrices
+4. Using Arduino: Buttons. Event based programming. Interrupts -> when and why to use them?
+5. Using Arduino: Button matrix. Resistors and analog inputs
+6. Using Arduino: Communication. use NRF24 to control LED
+7. Motos and motor shields
+8. Final workshop: end of bot build
