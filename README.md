@@ -24,7 +24,7 @@ Most people who will attend the workshops will be beginners, but some will alrea
 
 # TIMELINE DRAFT 2
 1. Intro. What is our process. Arduino -> why. Sensors and motors
-*2. Using Arduino: Electronic components. Resistors, capacitors, diodes, inductors*
+2. **Using Arduino: Electronic components. Resistors, capacitors, diodes, inductors**
 3. Using Arduino: LED matrix
 4. Using Arduino: Buttons. Event based programming. Interrupts -> when and why to use them?
 5. Using Arduino: Button matrix. Resistors and analog inputs
