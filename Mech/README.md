@@ -3,8 +3,13 @@
 # Header 1
 ## Header 2
 
-** bold text **
-* italicized text *
+
+**bold text**
+*italicized text*
+
+* Hello*
+*Hello*
+**Hello**
 
 > Block quote
 
