@@ -14,9 +14,8 @@ I initially set out to write a presenter's outline but found myself drifting int
     2. Sometimes Google will serve up the 2014 version when there's a perfectly fine 2019 version
     
 2. He has the following books (Physical AND ebooks can be borrowed from McGill Library)
-
-1. Mastering SolidWorks (2018)
-2. SolidWorks Bible (2015) - interfaces might change here and there but it's still useable
+    1. Mastering SolidWorks (2018)
+    2. SolidWorks Bible (2015) - interfaces might change here and there but it's still useable
 
 ### Part vs Assembly vs Sketch: what are they?
 Start here as it's the first thing they see.
