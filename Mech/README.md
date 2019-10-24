@@ -1,4 +1,5 @@
-# MechEng curriculum.
+# MechEng curriculum
+## Preamble
 Note: this info can be stored two ways. I've decided to make the following distinction:
 1) Written tutorial (tut): Essentially a "textbook". A well-organized tutorial consisting of full sentences that teaches the student through written word.
 2) Presenter's outline (notes): These are essentially slide notes. A reminder to the workshop presenter of the topics they should cover and the order to introduce them in in order to minimize confusion.
@@ -12,6 +13,11 @@ I may not be here to teach this curriculum next semester, so I would like to get
 1) Is this readable, and are there ways I can make it more so?
 2) Do you think there's a better way of me structuring this information so it can be more easily edited?
 
+## Pedagogy
+1. Audience: Members with some familiarity of geometry (i.e. degrees of freedom, cartesian coordinates, and measurement), but no prior experience with SolidWorks specifically. Members can have experience in AutoCAD and elsewhere (this will help with geometry) but much of this curriculum will be introduction to the interface, so there will be little redundancy.
+2. Purpose: To enable students to be able to create simple parts and assemblies for a robot that they can later 3D print
+3. Organization: (see mind map file somewhere and lesson plan below)
+4. Style: Semi-formal in the way a Club often is.
 ####
 Begin Module 1 of the SolidWorks workshops.
 
