@@ -5,4 +5,6 @@
 - Motors
 - Servo
 - bluetooth module (Make/model)
+- 5V regulator
+- buck/boost converter
 
