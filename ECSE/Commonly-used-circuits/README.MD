@@ -3,3 +3,6 @@
 include 
 - 5V regulator using 7805 linear regulator
 
+
+
+### Reverse voltage protection: https://hackaday.com/2011/12/06/reverse-voltage-protection-with-a-p-fet/
