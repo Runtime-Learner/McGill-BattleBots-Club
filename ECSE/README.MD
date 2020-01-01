@@ -10,7 +10,7 @@
 
 ## Files for Sumo-Bulls battlebots
 - OS files
-- instructions for connecting to conmputer
+- instructions for connecting to computer
 - schematics and parts list
 
 ## Schematics for commonly used circuits, such as 5V regulators, are stored in the "Commonly used circuits" folder
