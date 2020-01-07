@@ -17,7 +17,7 @@ char c = ' ';
 #define E2 3  // Enable Pin for motor 2
  
 #define I1 5  // Control pin 1 for motor 1
-#define I2 9  // Control pin 2 for motor 1
+#define I2 7  // Control pin 2 for motor 1
 #define I3 2  // Control pin 1 for motor 2
 #define I4 4  // Control pin 2 for motor 2
  
@@ -45,8 +45,10 @@ void loop() {
           counter = 0;
         }
         else{
-          if (counter > 3){
-            if(counter == 4)
+          if (counter > 2){
+            if(counter == 3)
+              data[counter] = c;
+              Serial.print(c);
               doSomething();
           } 
           else{
@@ -70,8 +72,8 @@ void doSomething(){
     y += 21;
     
   if (data[1] == '1'){
-    digitalWrite(I1, LOW);
-    digitalWrite(I2, HIGH);
+    digitalWrite(I1, LOW); //L
+    digitalWrite(I2, HIGH); //H
   }else{
     digitalWrite(I1, HIGH);
     digitalWrite(I2, LOW);
@@ -88,9 +90,9 @@ void doSomething(){
   analogWrite(E1, x);  // Run in full speed
   analogWrite(E2, y);  // Run in half speed
 
-Serial.print(", ");
-    Serial.print(x);
+  Serial.print(", ");
+  Serial.print(data[1]);
   Serial.write(", ");
-  Serial.print(y);
+  Serial.print(data[3]);
   Serial.write("\n");
 }
