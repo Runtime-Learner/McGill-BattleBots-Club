@@ -1,103 +1,74 @@
-from inputs import get_key
+import keyboard  # using module keyboard
 import serial
-import numpy as np
-from math import sin, cos, pi, radians, sqrt
+import time
 
+flagW = False
+flagA = False
+flagS = False
+flagD = False
+turnedOff = False
+last = -1
+s = serial.Serial("COM8",9600,timeout = 2)
+#s.write(bytes("!9090.",'utf-8'))
 
-def transform(x, y):
-    abs_dist = sqrt(x*x + y*y)
-    if abs_dist > 1:
-        abs_dist = 1
-    #print(abs_dist)
-    wheelRatio = abs(x)
-    newL = abs_dist
-    newR = abs_dist - wheelRatio*2
-    if x < 0:
-        tmp = newL
-        newL = newR
-        newR = tmp
-    if y < 0:
-        newL = -newL
-        newR = - newR
+modulo = 5
+counter = 0
 
-    newR = (int)(newR*9)
-    newL = (int)(newL*9)
-    return (newR, newL)
+while True:  # making a loop
+    if counter == 0:
+        try:  # used try so that if user pressed other than the given key error will not be shown
+            flagW = keyboard.is_pressed('w')
+            flagA = keyboard.is_pressed('a')
+            flagS = keyboard.is_pressed('s')
+            flagD = keyboard.is_pressed('d')
+        except:
+            if last != 0:
+                s.write(bytes("!0000.",'utf-8'))
+            last = 0
+            break
+    time.sleep(0.001)
+    counter = (counter+1)%modulo
+    dY = 0
+    dX = 0
+    if not (flagW and flagS):
+        if flagW:
+            dY = 1
+        if flagS:
+            dY = -1
+    if not (flagA and flagD):
+        if flagD:
+            dX = 1
+        if flagA:
+            dX = -1
 
+    if dY == 0 and dX == 0:
+        if last != 0:
+            print("idle")
+            s.write(bytes("!0000",'utf-8'))
+        last = 0
+    elif dX == 0:
+        if dY == 1:
+            if last != 1:
+                print("up")
+                s.write(bytes("!9090",'utf-8'))
+            last = 1
+        if dY == -1:
+            if last != 2:
+                print("down")
+                s.write(bytes("!9191",'utf-8'))
+            last = 2
+    elif dY == 0:
+        if dX == 1:
+            if last != 3:
+                print("right")
+                s.write(bytes("!9190",'utf-8'))
+            last = 3
+        if dX == -1:
+            if last != 4:
+                print("left")
+                s.write(bytes("!9091",'utf-8'))
+            last = 4
 
-
-s = serial.Serial("COM9",9600,timeout = 2)
-X = "00"
-Y = "00"
-evX = False
-evY = False
-eventZ = False
-evZ = 0
-modulo = 0
-lastX = 0
-lastY = 0
-
-
-while 1:
-    events = get_key()
-    for event in events:
-        if event.ev_type == "Absolute":
-            tmpX = lastX
-            tmpY = lastY
-            if event.code == "ABS_X":
-                evX = True
-                tmpX = (event.state/32770)
-                
-            if event.code == "ABS_Y":
-                evY = True
-                tmpY = (event.state/32770)
-
-            if event.code == "ABS_Z":
-                evZ = (int)(event.state)
-                eventZ = True
-                print("evZ\n")
-
-            
-            if (int)(tmpX*25) == (int)(lastX*25):
-                evX = False
-            else:
-                lastX = tmpX
-            if (int)(tmpY*25) == (int)(lastY*25):
-                evY = False
-            else:
-                lastY = tmpY
-
-            (tmpX, tmpY) = transform(tmpX, tmpY)
-
-
-            if evZ > 0:
-                if tmpX != 0:
-                    tmpX = (int)(tmpX/2)
-                if tmpY != 0:
-                    tmpY = (int)(tmpY/2)
-            
-            #store the value of X inside a string
+    
         
-            if tmpX < 0:
-                X = "1"
-                tmpX = tmpX * -1
-            else:
-                X = "0"
-            X = ((str)(tmpX % 10)) + X
-                    
-            #store the value of Y inside a string
-            
-            if tmpY < 0:
-                Y = "1"
-                tmpY = tmpY * -1
-            else:
-                Y = "0"
-            Y = ((str)(tmpY % 10)) + Y
-       
-        #only send one message out of 2 to decrease lag
-        if evX or evY or eventZ:
-            evY = False
-            evX = False
-            eventZ = False
-            print(X +"\t"+ Y) #L + R motors
-            s.write(bytes("!" + X + Y + ".",'utf-8'))
+        
