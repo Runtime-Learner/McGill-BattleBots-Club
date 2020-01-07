@@ -11,7 +11,7 @@ last = -1
 s = serial.Serial("COM8",9600,timeout = 2)
 #s.write(bytes("!9090.",'utf-8'))
 
-modulo = 5
+modulo = 1
 counter = 0
 
 while True:  # making a loop
