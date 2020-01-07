@@ -70,7 +70,10 @@ void doSomething(){
     x += 21;
   if (y > 0)
     y += 21;
-    
+
+  analogWrite(E1, 0);  // reduce back EMF when changing direction of motor spin
+  analogWrite(E2, 0);  // by going to neutral state before doing so
+  delay(20); //arduino crashes b/c of reversing motor directions. This is used to reduce the chances of that happening
   if (data[1] == '1'){
     digitalWrite(I1, LOW); //L
     digitalWrite(I2, HIGH); //H
