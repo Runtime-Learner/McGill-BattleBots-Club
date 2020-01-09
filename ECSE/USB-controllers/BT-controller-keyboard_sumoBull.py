@@ -44,29 +44,29 @@ while True:  # making a loop
     if dY == 0 and dX == 0:
         if last != 0:
             print("idle")
-            s.write(bytes("!0000.",'utf-8'))
+            s.write(bytes("!0000",'utf-8'))
         last = 0
     elif dX == 0:
         if dY == 1:
             if last != 1:
                 print("up")
-                s.write(bytes("!9090.",'utf-8'))
+                s.write(bytes("!9090",'utf-8'))
             last = 1
         if dY == -1:
             if last != 2:
                 print("down")
-                s.write(bytes("!9191.",'utf-8'))
+                s.write(bytes("!9191",'utf-8'))
             last = 2
     elif dY == 0:
         if dX == 1:
             if last != 3:
                 print("right")
-                s.write(bytes("!9190.",'utf-8'))
+                s.write(bytes("!9190",'utf-8'))
             last = 3
         if dX == -1:
             if last != 4:
                 print("left")
-                s.write(bytes("!9091.",'utf-8'))
+                s.write(bytes("!9091",'utf-8'))
             last = 4
 
     
