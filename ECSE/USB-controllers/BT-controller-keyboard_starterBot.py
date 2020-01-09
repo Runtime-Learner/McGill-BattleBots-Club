@@ -8,7 +8,10 @@ flagS = False
 flagD = False
 turnedOff = False
 last = -1
-s = serial.Serial("COM10",9600,timeout = 2)
+
+
+g = input("Enter serial port for starterBot : ") 
+s = serial.Serial(g,9600,timeout = 2)
 #s.write(bytes("!9090.",'utf-8'))
 
 modulo = 1
