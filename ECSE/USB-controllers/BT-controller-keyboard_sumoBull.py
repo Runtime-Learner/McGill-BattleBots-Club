@@ -58,12 +58,12 @@ while True:  # making a loop
                 s.write(bytes("!9191",'utf-8'))
             last = 2
     elif dY == 0:
-        if dX == 1:
+        if dX == -1:
             if last != 3:
                 print("right")
                 s.write(bytes("!9190",'utf-8'))
             last = 3
-        if dX == -1:
+        if dX == 1:
             if last != 4:
                 print("left")
                 s.write(bytes("!9091",'utf-8'))
