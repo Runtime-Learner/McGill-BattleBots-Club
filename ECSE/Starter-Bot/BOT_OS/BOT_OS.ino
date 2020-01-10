@@ -32,8 +32,10 @@ void loop()
           counter = 0;
         }
         else{
-          if (counter > 3){
-            if(counter == 4)
+          if (counter > 2){
+            if(counter == 3)
+              data[counter] = c;
+              Serial.print(c);
               doSomething();
           } 
           else{

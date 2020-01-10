@@ -1,6 +1,7 @@
 import keyboard  # using module keyboard
 import serial
 import time
+from serial.tools import list_ports
 
 flagW = False
 flagA = False
@@ -8,9 +9,65 @@ flagS = False
 flagD = False
 turnedOff = False
 last = -1
-g = input("Enter serial port for sumoBull : ") 
-s = serial.Serial(g,9600,timeout = 2)
-#s.write(bytes("!9090.",'utf-8'))
+
+
+
+# get list of serial ports, store them in a list
+list = []
+counter = 0
+for com in list_ports.comports():
+	list.append(com)
+
+for x in range(0, len(list)):
+        print(str(x) + ")\t" + str(list[x]))
+
+# if length of list is 0, no robot is connected to the computer.
+# notify user, and terminate program
+if len(list) == 0:
+    print("no serial ports detected....please turn on your devices and try again")
+    input("\n\nPress enter to continue\n\n")
+    exit()
+
+
+serialFlag = False
+while serialFlag == False:
+    #ask for user input. Repeat if user input is invalid
+    flag = False
+    while flag == False:
+        g = input("Enter serial port number: ")
+        
+        try:
+            # ignore all occurences of key presses that could be caused by
+            # controller presses.
+            g = g.replace("w", "")
+            g = g.replace("a", "")
+            g = g.replace("s", "")
+            g = g.replace("d", "")
+            g = g.replace("t", "")
+            g = g.replace("f", "")
+            g = g.replace("g", "")
+            g = g.replace("h", "")
+
+            # convert parsed input to integer
+            g = int(g)
+            flag = True
+
+            #insure that the user input is a valid index in the list
+            if g < 0 or g > (len(list)-1):
+                flag = False
+                print("Input out of bounds. Choose a port between 0 and " + str((len(list)-1)))
+        except:
+            print("input must be a number")
+            flag = False
+            
+    try:
+        # attempt to connect to that serial port
+        s = serial.Serial(list[g],9600,timeout = 2)
+        serialFlag = True
+    except:
+        # notify user that we failed to connect to the serial port
+        print("failed to connect to serial port \"" + list[g] + "\"")
+        serialFlag = False
 
 modulo = 1
 counter = 0
