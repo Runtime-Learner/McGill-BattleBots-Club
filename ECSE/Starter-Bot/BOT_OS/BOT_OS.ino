@@ -1,6 +1,6 @@
 #include <AFMotor.h>
 #include <SPI.h>
-#define MAX_SPEED 1
+#define MAX_SPEED 0.4
 
 int counter = 0;
 char data[6];
