@@ -5,9 +5,9 @@ int counter = 0;
 char data[6];
  
 #include <SoftwareSerial.h>
-SoftwareSerial BTserial(A1, A2); // RX | TX
+SoftwareSerial BTserial(A1, 10); // RX | TX
 // Connect the HC-05 TX to Arduino pin A1 RX. 
-// Connect the HC-05 RX to Arduino pin A2 TX through a voltage divider.
+// Connect the HC-05 RX to Arduino pin 10 TX through a voltage divider.
 // 
  
 char c = ' ';
@@ -33,7 +33,7 @@ void setup() {
 
     // HC-05 default serial speed for commincation mode is 9600
     BTserial.begin(9600);
-    Serial.begin(9600);
+//    Serial.begin(9600);
 }
  
 void loop() {
@@ -48,13 +48,13 @@ void loop() {
           if (counter > 2){
             if(counter == 3)
               data[counter] = c;
-              Serial.print(c);
+//              Serial.print(c);
               doSomething();
           } 
           else{
             data[counter] = c;
             counter++;
-            Serial.print(c);
+//            Serial.print(c);
           }
         }
     } 
@@ -93,9 +93,9 @@ void doSomething(){
   analogWrite(E1, x);  // Run in full speed
   analogWrite(E2, y);  // Run in half speed
 
-  Serial.print(", ");
-  Serial.print(data[1]);
-  Serial.write(", ");
-  Serial.print(data[3]);
-  Serial.write("\n");
+//  Serial.print(", ");
+//  Serial.print(data[1]);
+//  Serial.write(", ");
+//  Serial.print(data[3]);
+//  Serial.write("\n");
 }
