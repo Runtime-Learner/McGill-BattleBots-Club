@@ -20,6 +20,7 @@ char c = ' ';
 #define I2 7  // Control pin 2 for motor 1
 #define I3 2  // Control pin 1 for motor 2
 #define I4 4  // Control pin 2 for motor 2
+
  
 void setup() {
  
@@ -60,35 +61,56 @@ void loop() {
     } 
 }
 
+int new1 = 0;
+int new2 = 0;
+int old1 = 0;
+int old2 = 0;
+
 void doSomething(){
   int x = 0;
   int y = 0;
   x = ((data[0] - '0')) * 26;
   y = ((data[2] - '0')) * 26;
 
-  if (x > 0)
-    x += 21;
-  if (y > 0)
-    y += 21;
-
   analogWrite(E1, 0);  // reduce back EMF when changing direction of motor spin
   analogWrite(E2, 0);  // by going to neutral state before doing so
   delay(20); //arduino crashes b/c of reversing motor directions. This is used to reduce the chances of that happening
   if (data[1] == '1'){
-    digitalWrite(I1, LOW); //L
     digitalWrite(I2, HIGH); //H
+    digitalWrite(I1, LOW); //L
+    new1 = 1;
+    
   }else{
     digitalWrite(I1, HIGH);
     digitalWrite(I2, LOW);
+    new1 = -1;
   }
 
   if (data[3] == '1'){
-    digitalWrite(I3, LOW);
     digitalWrite(I4, HIGH);
+    digitalWrite(I3, LOW);
+    new2 = 1;
   }else{
     digitalWrite(I3, HIGH);
     digitalWrite(I4, LOW);
+    new2 = -1;
   }
+
+  if (x > 0)
+    x += 21;
+  else
+    new1 = 0;
+  if (y > 0)
+    y += 21;
+  else new2 = 0;
+
+  if (new1 != 0 && new2 != 0 && (new1 != old1 || new2 != old2)){
+    analogWrite(E1, 10);  // Run in full speed
+    analogWrite(E2, 10);  // Run in half speed
+    delay(150);
+  }
+  old1 = new1;
+  old2 = new2;
 
   analogWrite(E1, x);  // Run in full speed
   analogWrite(E2, y);  // Run in half speed
