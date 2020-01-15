@@ -129,11 +129,13 @@ while True:  # making a loop
                 flagA = keyboard.is_pressed(left)
                 flagS = keyboard.is_pressed(down)
                 flagD = keyboard.is_pressed(right)
+                time.sleep(0.01)
             except:
                 if last != 0:
                     s.write(bytes("!0000.",'utf-8'))
                     last = 0
     counter = (counter+1)%modulo
+    
     dY = 0
     dX = 0
     if not (flagW and flagS):
@@ -164,12 +166,12 @@ while True:  # making a loop
                 s.write(bytes("!9191",'utf-8'))
             last = 2
     elif dY == 0:
-        if dX == -1:
+        if dX == 1:
             if last != 3:
                 print("right")
                 s.write(bytes("!9190",'utf-8'))
             last = 3
-        if dX == 1:
+        if dX == -1:
             if last != 4:
                 print("left")
                 s.write(bytes("!9091",'utf-8'))
