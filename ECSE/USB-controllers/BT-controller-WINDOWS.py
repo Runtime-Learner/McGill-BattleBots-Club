@@ -21,6 +21,7 @@ right = ''
 # get list of serial ports, store them in a list
 list = []
 counter = 0
+        
 for com in list_ports.comports():
 	list.append(com)
 
