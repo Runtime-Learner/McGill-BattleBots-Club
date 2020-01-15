@@ -107,9 +107,10 @@ while flag == False:
             print("input must be a number")
             flag = False
 
+
 if g == 0:
     up = 'w'
-    down = 's'
+    down = 's' 
     left = 'a'
     right = 'd'
 else:
