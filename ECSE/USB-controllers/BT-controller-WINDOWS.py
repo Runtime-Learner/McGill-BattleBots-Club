@@ -110,8 +110,8 @@ while flag == False:
 if g == 0:
     up = 'w'
     down = 's'
-    left = 'd'
-    right = 'a'
+    left = 'a'
+    right = 'd'
 else:
     up = 't'
     down = 'g'
