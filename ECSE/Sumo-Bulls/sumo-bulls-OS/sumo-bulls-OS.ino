@@ -1,17 +1,8 @@
 #include <SPI.h>
-#define MAX_SPEED 1
-
-int counter = 0;
-char data[6];
- 
 #include <SoftwareSerial.h>
-SoftwareSerial BTserial(A1, 10); // RX | TX
-// Connect the HC-05 TX to Arduino pin A1 RX. 
-// Connect the HC-05 RX to Arduino pin 10 TX through a voltage divider.
-// 
- 
-char c = ' ';
 
+
+#define MAX_SPEED 1
 
 #define E1 6  // Enable Pin for motor 1
 #define E2 3  // Enable Pin for motor 2
@@ -21,6 +12,14 @@ char c = ' ';
 #define I3 2  // Control pin 1 for motor 2
 #define I4 4  // Control pin 2 for motor 2
 
+
+int counter = 0;
+char data[6];
+char c = ' ';
+
+SoftwareSerial BTserial(A1, 10); // RX | TX
+// Connect the HC-05 TX to Arduino pin A1 RX. 
+// Connect the HC-05 RX to Arduino pin 10 TX through a voltage divider.
  
 void setup() {
  
@@ -34,7 +33,6 @@ void setup() {
 
     // HC-05 default serial speed for commincation mode is 9600
     BTserial.begin(9600);
-//    Serial.begin(9600);
 }
  
 void loop() {
@@ -49,13 +47,11 @@ void loop() {
           if (counter > 2){
             if(counter == 3)
               data[counter] = c;
-//              Serial.print(c);
               doSomething();
           } 
           else{
             data[counter] = c;
             counter++;
-//            Serial.print(c);
           }
         }
     } 
@@ -105,19 +101,13 @@ void doSomething(){
   else new2 = 0;
 
   if (new1 != 0 && new2 != 0 && (new1 != old1 || new2 != old2)){
-    analogWrite(E1, 10);  // Run in full speed
-    analogWrite(E2, 10);  // Run in half speed
-    delay(150);
+    analogWrite(E1, 10);  // electric braking
+    analogWrite(E2, 10);  // electric braking
+    delay(150); //give time to finish braking
   }
   old1 = new1;
   old2 = new2;
 
   analogWrite(E1, x);  // Run in full speed
   analogWrite(E2, y);  // Run in half speed
-
-//  Serial.print(", ");
-//  Serial.print(data[1]);
-//  Serial.write(", ");
-//  Serial.print(data[3]);
-//  Serial.write("\n");
 }
