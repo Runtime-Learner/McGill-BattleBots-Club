@@ -71,6 +71,7 @@ void doSomething(){
   analogWrite(E1, 0);  // reduce back EMF when changing direction of motor spin
   analogWrite(E2, 0);  // by going to neutral state before doing so
   delay(20); //arduino crashes b/c of reversing motor directions. This is used to reduce the chances of that happening
+  
   if (data[1] == '1'){
     digitalWrite(I2, HIGH); //H
     digitalWrite(I1, LOW); //L
@@ -101,9 +102,9 @@ void doSomething(){
   else new2 = 0;
 
   if (new1 != 0 && new2 != 0 && (new1 != old1 || new2 != old2)){
-    analogWrite(E1, 10);  // electric braking
-    analogWrite(E2, 10);  // electric braking
-    delay(150); //give time to finish braking
+    analogWrite(E1, 10);  // Run in full speed
+    analogWrite(E2, 10);  // Run in half speed
+    delay(250);
   }
   old1 = new1;
   old2 = new2;
