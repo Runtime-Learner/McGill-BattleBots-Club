@@ -5,5 +5,5 @@
 - Simplifying circuits with resistors
 - Using voltage dividers in your project
 
-# Files required for Wprkshop 1:
+# Files required for Workshop 1:
 - none for now (maybe some worksheets?)
