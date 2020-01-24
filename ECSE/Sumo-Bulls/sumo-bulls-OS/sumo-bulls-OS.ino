@@ -33,6 +33,18 @@ void setup() {
 
     // HC-05 default serial speed for commincation mode is 9600
     BTserial.begin(9600);
+
+
+    //set motors to idle state when arduino turns on
+    //motor 1
+    digitalWrite(I2, HIGH); //H
+    digitalWrite(I1, LOW); //L
+    //motor 2
+    digitalWrite(I4, HIGH); //H
+    digitalWrite(I3, LOW); //L
+    
+    analogWrite(E1, 0);  // turn off motor 1
+    analogWrite(E2, 0);  // turn off motor 2
 }
  
 void loop() {
@@ -102,13 +114,14 @@ void doSomething(){
   else new2 = 0;
 
   if (new1 != 0 && new2 != 0 && (new1 != old1 || new2 != old2)){
-    analogWrite(E1, 10);  // Run in full speed
-    analogWrite(E2, 10);  // Run in half speed
+    analogWrite(E1, 10);  // Run in low speed
+    analogWrite(E2, 10);  // Run in low speed
     delay(250);
   }
   old1 = new1;
   old2 = new2;
-
-  analogWrite(E1, x);  // Run in full speed
-  analogWrite(E2, y);  // Run in half speed
+  
+  // Run at instructed speed
+  analogWrite(E1, x);  
+  analogWrite(E2, y); 
 }
