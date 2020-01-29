@@ -1,5 +1,5 @@
 #define pin 2     //pin on which the button will be connected
-#define ledPin 13 //LED pin. is onboard the arduino and does not have to be connected manually
+#define ledPin 9 //LED pin. is onboard the arduino and does not have to be connected manually
 
 int ledState;     //variable used to store whether or not the LED is currently turned on
 
@@ -18,7 +18,7 @@ void loop() {
   if (digitalRead(pin) != ledState){
     
     ledState = digitalRead(pin);    //set ledState to be the same as the button state
-    digitalWrite(ledPin, ledState); //write the new LED state to the led pin
+    digitalWrite(ledPin, !ledState); //write the new LED state to the led pin
     delay(50);
   }
 }
