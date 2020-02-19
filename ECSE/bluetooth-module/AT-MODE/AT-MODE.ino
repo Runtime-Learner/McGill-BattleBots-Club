@@ -3,7 +3,7 @@
 //
 // The HC-05 defaults to commincation mode when first powered on.
 // The default baud rate for communication mode is 9600
-//
+// 
 #define ledPin 7
 int state = 0;
 
@@ -20,11 +20,13 @@ void setup()
 {
     pinMode(ledPin, OUTPUT);
     digitalWrite(ledPin, HIGH);
+
+    
     Serial.begin(38400);
     Serial.println("Arduino is ready");
- 
+
     // HC-05 default serial speed for commincation mode is 9600
-    BTserial.begin(38400);  
+    BTserial.begin(38400);
 }
  
 void loop()
