@@ -5,9 +5,60 @@ from tkinter import *
 from tkinter.ttk import * #used for combobox
 import re
 
+import threading
+import time
+import keyboard  # using module keyboard
+
 window = Tk()
 COM_port = ""
 connected = False
+
+#write_timeout = 1
+
+
+#########################################
+#theading functions
+#########################################
+def thread_keyboardEvent():
+    ##flags used to keep track of what keys have been pressed.
+    flagB = False
+    flagA = False
+
+
+    ##reduce keyboard sampling rate by only sampling once every 3 times the loop runs
+    modulo = 3
+    counter = 0
+
+    while True:  # making a loop
+            if counter == 0:
+                try:  # used try so that if user pressed other than the given key errors will not be shown
+
+                    ##detect key presses
+                    flagA = keyboard.is_pressed('A')
+                    flagB = keyboard.is_pressed('B')
+                    time.sleep(0.01)
+                except:
+                    ##if something goes wrong, send a '0' to the bluetooth module
+                    print("eh")
+                    
+            counter = (counter+1)%modulo
+
+
+            ##send out data based on what keys were pressed.
+            if flagA:
+                print("a pressed")
+                flagA = False
+            
+            if flagB:
+                print("b pressed")
+                disconnect()
+                flagB = False
+
+#send a message over serial connection if the COM port is open
+def sendMsg(message):
+    global connected
+    if connected:
+        s.write(bytes(message,'utf-8'))
 
 #########################################
 #events
@@ -141,6 +192,10 @@ OsTwo.grid(column=1, row=0)
 
 #initialize list of COM ports before application opens
 refresh_COM_list()
+
+#initialize thread
+x = threading.Thread(target=thread_keyboardEvent)
+x.start()
 
 window.title("Bluetooth-controller-1.0")
 window.mainloop()
