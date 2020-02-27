@@ -1,6 +1,7 @@
 from inputs import devices
 from inputs import get_gamepad
 from serial.tools import list_ports
+import serial
 from tkinter import *
 from tkinter.ttk import * #used for combobox
 import re
@@ -13,6 +14,8 @@ window = Tk()
 COM_port = ""
 connected = False
 
+
+s = None
 #write_timeout = 1
 
 
@@ -28,8 +31,9 @@ def thread_keyboardEvent():
     ##reduce keyboard sampling rate by only sampling once every 3 times the loop runs
     modulo = 3
     counter = 0
-
+    last = 0
     while True:  # making a loop
+        if s is not None and s.is_open:
             if counter == 0:
                 try:  # used try so that if user pressed other than the given key errors will not be shown
 
@@ -40,19 +44,25 @@ def thread_keyboardEvent():
                 except:
                     ##if something goes wrong, send a '0' to the bluetooth module
                     print("eh")
-                    
+                    sendMsg("!0000")
+
+                ##send out data based on what keys were pressed.
+                if flagA:
+                    if last != 1:
+                        print("a pressed")
+                        sendMsg("!9090")
+                        last = 1
+                elif flagB:
+                    if last != 2:
+                        print("b pressed")
+                        sendMsg("!9191")
+                        last = 2
+                elif last != 0:
+                    sendMsg("!0000")
+                    last = 0
             counter = (counter+1)%modulo
-
-
-            ##send out data based on what keys were pressed.
-            if flagA:
-                print("a pressed")
-                flagA = False
-            
-            if flagB:
-                print("b pressed")
-                disconnect()
-                flagB = False
+        else:
+            time.sleep(.25)
 
 #send a message over serial connection if the COM port is open
 def sendMsg(message):
@@ -116,6 +126,8 @@ def changeOS():
 def disconnect():
     global COM_port, connected
     if COM_port != "" and connected:
+        s.__del__()
+        print(s)
         print("disconnected from port " + COM_port)
         lbl_status['text'] = "\nStatus: Disconnected"
     connected = False
@@ -124,10 +136,25 @@ def connect():
     print("attempting to connect...")
     global COM_port, connected
     if COM_port != "" and not connected:
-        print("connected to port " + COM_port)
-        connected = True
-        lbl_status['text'] = "\nStatus: Connected"
-        
+        flag = attemptToConnect()
+        if flag:
+            print("connected to port " + COM_port)
+            connected = True
+            lbl_status['text'] = "\nStatus: Connected"
+        else:
+            print("failed to connect to port" + COM_port)
+    else:
+        print("already connected to a port")
+
+def attemptToConnect():
+    global COM_port, s
+    try:
+        # attempt to connect to that serial port
+        s = serial.Serial(COM_port,9600,timeout = 2)
+        return True
+    except:
+        # notify user that we failed to connect to the serial port
+        return False        
 #########################################
 #static labels
 #########################################
