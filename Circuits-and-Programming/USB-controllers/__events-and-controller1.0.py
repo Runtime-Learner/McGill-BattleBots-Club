@@ -10,6 +10,141 @@ import threading
 import time
 import keyboard  # using module keyboard
 
+
+
+#########
+#GLOBAL VARIABLES
+#########
+commandsList = [("~", "0")]
+
+#########
+#GLOBAL FUNCTIONS
+#########
+def getBool(myList): 
+    # Multiply elements one by one 
+    result = 1
+    for x in myList: 
+         result = result * x  
+    return bool(result)
+
+
+
+
+####~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+################
+#events
+###############
+def tb1_enter():
+    txt2.focus()
+    
+def tb2_enter():
+    x = re.search("\S", txt1.get())
+    y = re.search("\S+", txt2.get())
+    if x != None and y != None: 
+        Lb1.insert(END, x.group() + " => " + y.group())
+    txt1.delete(first=0, last = len(txt1.get()))
+    txt2.delete(first=0, last = len(txt2.get()))
+    txt1.focus()
+        
+def deleteFromCommands():
+    Lb1.delete(ANCHOR)
+
+def initializeCommandsList():
+    global commandsList
+    for item in commandsList:
+        (x, y) = item
+        Lb1.insert(END, x + " => " + y)
+        
+def on_closingProfiler():
+    global commandsList, s
+    print("closing")
+    commandsList = []
+    hasDefaultCommand = False
+    for string in Lb1.get(0, END):
+        x = re.search("^\S+", string)
+        y = re.search("\S+$", string)
+        if x != None:
+            print(x.group() + " , "  + y.group())
+            commandsList.append((x.group(), y.group()))
+            if x.group() == "~":
+                hasDefaultCommand = True
+
+    if hasDefaultCommand:
+        window2.destroy()
+    else:
+        print("need default command (~)!")
+
+
+
+###################
+#creation of event creator
+###################
+window2 = None
+#row1
+txt1 = None
+
+txt2 = None
+
+#row 4
+Lb1 = None
+
+COMS_btn = None
+
+def create_profile_window():
+    global window2, txt1, txt2, Lb1, COMS_btn, s
+    window2 = Toplevel()
+
+
+    #row 0
+    lbl5 = Label(window2, text="Input sequence") 
+    lbl5.grid(column=0, row=0)
+
+    lbl5 = Label(window2, text="Command")
+    lbl5.grid(column=1, row=0)
+
+    #row1
+    txt1 = Entry(window2,width=10)
+    txt1.grid(column=0, row = 1)
+    txt1.get() #gets the info inside the textbox
+    txt1.focus() #set focus to entry widget
+    txt1.bind("<Return>", (lambda event:tb1_enter() ))
+
+    txt2 = Entry(window2,width=10)
+    txt2.grid(column=1, row = 1)
+    txt2.bind("<Return>", (lambda event:tb2_enter()))
+
+    #row2 ###filler
+    lbl5 = Label(window2, text="----------------") 
+    lbl5.grid(column=0, row=2)
+    lbl5 = Label(window2, text="----------------") 
+    lbl5.grid(column=1, row=2)
+
+    #row 3
+    lbl5 = Label(window2, text="commands list") 
+    lbl5.grid(column=0, row=3)
+
+    #row 4
+    Lb1 = Listbox(window2) #list of commands
+    Lb1['height'] = 10
+    Lb1.grid(column=0, row=4)
+    initializeCommandsList()
+
+    COMS_btn = Button(window2) #delete from Commands list
+    COMS_btn['text']="delete"
+    COMS_btn['command']=deleteFromCommands
+    COMS_btn.grid(column=1, row=4)
+
+
+    window2.title("commands profile")
+    window2.protocol("WM_DELETE_WINDOW", on_closingProfiler)
+    window2.grab_set()
+    disconnect()
+    window2.mainloop()
+    
+    
+    
+####~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 window = Tk()
 COM_port = ""
 connected = False
@@ -18,14 +153,17 @@ connected = False
 s = None
 #write_timeout = 1
 
-
 #########################################
 #theading functions
 #########################################
 def thread_keyboardEvent():
+    print("starting keyboardsLoop")
     ##flags used to keep track of what keys have been pressed.
-    flagB = False
-    flagA = False
+    global commandsList, s
+    
+    flagList = []
+    for i in range(0, len(commandsList) + 1):
+        flagList.append(False)
 
 
     ##reduce keyboard sampling rate by only sampling once every 3 times the loop runs
@@ -38,37 +176,29 @@ def thread_keyboardEvent():
                 try:  # used try so that if user pressed other than the given key errors will not be shown
 
                     ##detect key presses
-                    flagA = keyboard.is_pressed('A')
-                    flagB = keyboard.is_pressed('B')
+                    for i in range(0, len(commandsList)):
+                        flagList[i] = keyboard.is_pressed(commandsList[i][0])
                     time.sleep(0.01)
                 except:
                     ##if something goes wrong, send a '0' to the bluetooth module
-                    print("eh")
-                    sendMsg("!0000")
+                    print("failed to read keyboard")
 
                 ##send out data based on what keys were pressed.
-                if flagA:
-                    if last != 1:
-                        print("a pressed")
-                        sendMsg("!9090")
-                        last = 1
-                elif flagB:
-                    if last != 2:
-                        print("b pressed")
-                        sendMsg("!9191")
-                        last = 2
-                elif last != 0:
-                    sendMsg("!0000")
-                    last = 0
+                for i in range(0, len(commandsList)):
+                    if flagList[i]:
+                        sendMsg(commandsList[i][1])
             counter = (counter+1)%modulo
         else:
             time.sleep(.25)
+            print("ending keyboards loop")
+            return
 
 #send a message over serial connection if the COM port is open
 def sendMsg(message):
     global connected
     if connected:
         s.write(bytes(message,'utf-8'))
+        print(message)
 
 #########################################
 #events
@@ -105,7 +235,7 @@ def refresh_COM_list():
 ## change the regex used to get the port name based on the OS selected
 def changeOS():
     global COM_port
-
+    
     disconnect() #disconnect from any port before changing OS
     
     if OsValue.get() == 2: #windows
@@ -122,7 +252,7 @@ def changeOS():
             COM_port = x.group()
         else:
             COM_port = ""
-            
+    
 def disconnect():
     global COM_port, connected
     if COM_port != "" and connected:
@@ -151,10 +281,22 @@ def attemptToConnect():
     try:
         # attempt to connect to that serial port
         s = serial.Serial(COM_port,9600,timeout = 2)
+        #initialize thread
+        x = threading.Thread(target=thread_keyboardEvent)
+        x.start()
         return True
     except:
         # notify user that we failed to connect to the serial port
-        return False        
+        return False
+
+
+def openProfiler():
+    create_profile_window()
+
+def on_closingMain():
+    global commandsList, s
+    window.destroy()
+    disconnect()
 #########################################
 #static labels
 #########################################
@@ -190,6 +332,12 @@ COM_btn['text']="connect"
 COM_btn['command']=connect
 COM_btn.grid(column=1, row=3)
 
+#alter commands list
+COM_btn = Button(window)
+COM_btn['text']="change Commands list"
+COM_btn['command']= openProfiler
+COM_btn.grid(column=1, row=4)
+
 #########################################
 #Comboboxes
 #########################################
@@ -220,9 +368,6 @@ OsTwo.grid(column=1, row=0)
 #initialize list of COM ports before application opens
 refresh_COM_list()
 
-#initialize thread
-x = threading.Thread(target=thread_keyboardEvent)
-x.start()
-
 window.title("Bluetooth-controller-1.0")
+window.protocol("WM_DELETE_WINDOW", on_closingMain)
 window.mainloop()
