@@ -103,10 +103,10 @@ def create_profile_window():
 
 
     #row 0
-    lbl5 = Label(window2, text="Input sequence") 
+    lbl5 = Label(window2, text="Keyboard key") 
     lbl5.grid(column=0, row=0)
 
-    lbl5 = Label(window2, text="Command")
+    lbl5 = Label(window2, text="Command to send")
     lbl5.grid(column=1, row=0)
 
     #row1
