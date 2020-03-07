@@ -212,9 +212,9 @@ def thread_keyboardEvent():
 
 #send a message over serial connection if the COM port is open
 def sendMsg(message):
-##    global connected
-##    if connected:
-##        s.write(bytes(message,'utf-8'))
+    global connected
+    if connected:
+        s.write(bytes(message,'utf-8'))
     print(message)
 
 #########################################
@@ -271,8 +271,9 @@ def changeOS():
             COM_port = ""
     
 def disconnect():
-    global COM_port, connected, s
+    global COM_port, connected, s, defaultCommand
     if COM_port != "" and connected:
+        sendMsg(defaultCommand)
         s.__del__()
         print(s)
         print("disconnected from port " + COM_port)
@@ -312,8 +313,8 @@ def openProfiler():
 
 def on_closingMain():
     global commandsList, s
-    window.destroy()
     disconnect()
+    window.destroy()
 #########################################
 #static labels
 #########################################
