@@ -15,7 +15,8 @@ import keyboard  # using module keyboard
 #########
 #GLOBAL VARIABLES
 #########
-commandsList = [("~", "0")]
+commandsList = []
+defaultCommand = "0"
 
 #########
 #GLOBAL FUNCTIONS
@@ -54,9 +55,10 @@ def initializeCommandsList():
     for item in commandsList:
         (x, y) = item
         Lb1.insert(END, x + " => " + y)
+    Lb1.insert(END, "~ => " + defaultCommand)
         
 def on_closingProfiler():
-    global commandsList, s
+    global commandsList, s, defaultCommand
     print("closing")
     commandsList = []
     hasDefaultCommand = False
@@ -65,9 +67,11 @@ def on_closingProfiler():
         y = re.search("\S+$", string)
         if x != None:
             print(x.group() + " , "  + y.group())
-            commandsList.append((x.group(), y.group()))
             if x.group() == "~":
                 hasDefaultCommand = True
+                defaultCommand = y.group()
+            else:
+                commandsList.append((x.group(), y.group()))
 
     if hasDefaultCommand:
         window2.destroy()
@@ -92,6 +96,9 @@ COMS_btn = None
 
 def create_profile_window():
     global window2, txt1, txt2, Lb1, COMS_btn, s
+
+    disconnect()
+    
     window2 = Toplevel()
 
 
@@ -138,7 +145,6 @@ def create_profile_window():
     window2.title("commands profile")
     window2.protocol("WM_DELETE_WINDOW", on_closingProfiler)
     window2.grab_set()
-    disconnect()
     window2.mainloop()
     
     
@@ -158,9 +164,10 @@ s = None
 #########################################
 def thread_keyboardEvent():
     print("starting keyboardsLoop")
-    ##flags used to keep track of what keys have been pressed.
-    global commandsList, s
-    
+    global commandsList, s, defaultCommand
+
+##flags used to keep track of what keys have been pressed.
+    lastCommand = -2 #does not map to any command
     flagList = []
     for i in range(0, len(commandsList) + 1):
         flagList.append(False)
@@ -182,11 +189,21 @@ def thread_keyboardEvent():
                 except:
                     ##if something goes wrong, send a '0' to the bluetooth module
                     print("failed to read keyboard")
+                    if lastCommand != -1:
+                        sendMsg(defaultCommand)
+                        lastCommand = -1 #maps to the default command
 
                 ##send out data based on what keys were pressed.
+                globalFlag = False
                 for i in range(0, len(commandsList)):
                     if flagList[i]:
-                        sendMsg(commandsList[i][1])
+                        if lastCommand != i:
+                            sendMsg(commandsList[i][1])
+                            lastCommand = i
+                        globalFlag = True
+                if not globalFlag and lastCommand != -1:
+                    sendMsg(defaultCommand)
+                    lastCommand = -1
             counter = (counter+1)%modulo
         else:
             time.sleep(.25)
@@ -195,10 +212,10 @@ def thread_keyboardEvent():
 
 #send a message over serial connection if the COM port is open
 def sendMsg(message):
-    global connected
-    if connected:
-        s.write(bytes(message,'utf-8'))
-        print(message)
+##    global connected
+##    if connected:
+##        s.write(bytes(message,'utf-8'))
+    print(message)
 
 #########################################
 #events
@@ -254,7 +271,7 @@ def changeOS():
             COM_port = ""
     
 def disconnect():
-    global COM_port, connected
+    global COM_port, connected, s
     if COM_port != "" and connected:
         s.__del__()
         print(s)
@@ -264,7 +281,7 @@ def disconnect():
 
 def connect():
     print("attempting to connect...")
-    global COM_port, connected
+    global COM_port, connected, s
     if COM_port != "" and not connected:
         flag = attemptToConnect()
         if flag:
