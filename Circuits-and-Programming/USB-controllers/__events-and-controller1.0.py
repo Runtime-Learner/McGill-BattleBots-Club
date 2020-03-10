@@ -214,7 +214,7 @@ def thread_keyboardEvent():
 def sendMsg(message):
     global connected
     if connected:
-        s.write(bytes(message,'utf-8'))
+        s.write(bytes(message + "\r\n",'utf-8'))
     print(message)
 
 #########################################
