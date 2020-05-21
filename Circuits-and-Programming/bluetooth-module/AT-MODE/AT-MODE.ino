@@ -9,7 +9,7 @@ int state = 0;
 
  
 #include <SoftwareSerial.h>
-SoftwareSerial BTserial(2, 3); // RX | TX
+SoftwareSerial BTserial(A1, 10); // RX | TX
 // Connect the HC-05 TX to Arduino pin 2 RX. 
 // Connect the HC-05 RX to Arduino pin 3 TX through a voltage divider.
 // 
@@ -22,11 +22,11 @@ void setup()
     digitalWrite(ledPin, HIGH);
 
     
-    Serial.begin(38400);
+    Serial.begin(9600);
     Serial.println("Arduino is ready");
 
-    // HC-05 default serial speed for commincation mode is 9600
-    BTserial.begin(38400);
+    // HC-05 default serial speed for commincation mode is 9600 --AT = 38400
+    BTserial.begin(9600);
 }
  
 void loop()
@@ -44,12 +44,16 @@ void loop()
         }
         Serial.write(c);
     }
- 
+    BTserial.write("tet1");
+    BTserial.write("test2\n");
+    BTserial.write("test3\r");
+    BTserial.write("test4\r\n");
+    BTserial.write("test5\n\r");
     // Keep reading from Arduino Serial Monitor and send to HC-05
     if (Serial.available())
     {
         c =  Serial.read();
-        BTserial.write(c);  
+        BTserial.write(c);
     }
  
 }
