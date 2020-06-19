@@ -1,7 +1,19 @@
-# OS files for bots
+# SUMO BULLS
 
+<p align="center">
+  <img width="460" height="300" src="https://media1.giphy.com/media/xUPGcnkuXfoEfhfXdS/giphy.gif">
+</p>
 
-includes:
-- .ino files
-- schematics of bot
-- materials needed for bot construction (put in README.MD file)
+## short description of project:
+The Sumo-Bulls were created for the purpose of teaching. Our goal with this robot was to make it simple so that anybody would be able to recreate it after following our tutorials, while also looking professional and appealing.
+
+## year created: 2019
+## Built by:
+* Jack Xie
+* Herman Tobungbanua
+* Alex Lo
+* Abdel Rahman Sadaqa
+* Louis Lortie
+* Mike Sun
+* Matthias Arabian
+## required materials list
