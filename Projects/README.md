@@ -1,3 +1,4 @@
+# MUST INCLUDE BOM FILE FOR EACH PROJECT (BILL OF MATERIALS)
 # The folders here store all of the files used for each respective project
 
 ## Sumo-Bulls
