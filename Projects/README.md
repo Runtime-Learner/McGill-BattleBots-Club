@@ -1,4 +1,4 @@
-# MUST INCLUDE BOM FILE FOR EACH PROJECT (BILL OF MATERIALS)
+# MUST INCLUDE BOM FILE FOR EACH PROJECT (BILL OF MATERIALS). LCSC WEBSITE FOR BUYING PARTS?
 # The folders here store all of the files used for each respective project
 
 ## Sumo-Bulls
