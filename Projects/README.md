@@ -8,5 +8,5 @@
 
 ## Starter-Bot
 <p align="center">
-  <img width="460" height="300" src="https://media1.giphy.com/media/xUPGcnkuXfoEfhfXdS/giphy.gif">
+  <img width="460" height="300" src="https://drive.google.com/file/d/1M81sFBv2w_FCsg4HbzFQJQ6yAL4dm-00/view?usp=sharing">
 </p>
