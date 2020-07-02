@@ -3,10 +3,10 @@
 
 ## Sumo-Bulls
 <p align="center">
-  <img width="460" height="300" src="https://media1.giphy.com/media/xUPGcnkuXfoEfhfXdS/giphy.gif">
+  <img width="460" height="300" src="https://github.com/Runtime-Learner/McGill-BattleBots-Club/blob/master/Projects/Sumo-Bulls/Pictures/IMG_7151.jpg">
 </p>
 
 ## Starter-Bot
 <p align="center">
-  <img width="460" height="300" src="https://drive.google.com/file/d/1M81sFBv2w_FCsg4HbzFQJQ6yAL4dm-00/view?usp=sharing">
+  <img width="460" height="300" src="https://github.com/Runtime-Learner/McGill-BattleBots-Club/blob/master/Projects/Starter-Bot/Pictures/Robot%20Shot%208.jpg">
 </p>
