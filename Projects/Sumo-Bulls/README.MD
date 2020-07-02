@@ -1,7 +1,7 @@
 # SUMO BULLS
 
 <p align="center">
-  <img width="460" height="300" src="https://media1.giphy.com/media/xUPGcnkuXfoEfhfXdS/giphy.gif">
+  <img width="460" height="300" src="https://github.com/Runtime-Learner/McGill-BattleBots-Club/blob/master/Projects/Sumo-Bulls/Pictures/IMG_7151.jpg">
 </p>
 
 ## short description of project:
